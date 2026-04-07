@@ -31,7 +31,7 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [apiStateReady, setApiStateReady] = useState(false)
-  const [apiStatus, setApiStatus] = useState('Connecting to local API')
+  const [apiStatus, setApiStatus] = useState('Connecting to API')
   const [advisorLoading, setAdvisorLoading] = useState(false)
   const [advisorPrompt, setAdvisorPrompt] = useState('Where should I cut spending first?')
   const [advisorResponse, setAdvisorResponse] = useState(null)
@@ -81,11 +81,11 @@ function App() {
         setNotifications(hydrated.notifications)
         setStockWatchlist(hydrated.stockWatchlist)
         setSelectedStockSymbol(hydrated.stockWatchlist[0] ?? initialDashboardState.stockWatchlist[0])
-        setApiStatus('Connected to local API')
+        setApiStatus('Connected to API')
       } catch {
         if (ignore) return
-        setApiStatus('Local API unavailable, using fallback data')
-        setToast({ message: 'Could not reach the local API. Showing fallback data.', tone: 'error' })
+        setApiStatus('API unavailable, using fallback data')
+        setToast({ message: 'Could not reach the API. Showing fallback data.', tone: 'error' })
       } finally {
         if (!ignore) setApiStateReady(true)
       }
@@ -115,10 +115,10 @@ function App() {
           }),
           controller.signal,
         )
-        setApiStatus('Connected to local API')
+        setApiStatus('Connected to API')
       } catch {
         if (controller.signal.aborted) return
-        setApiStatus('Sync paused: local API unavailable')
+        setApiStatus('Sync paused: API unavailable')
       }
     }, 250)
 

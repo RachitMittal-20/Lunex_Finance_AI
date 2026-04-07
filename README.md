@@ -5,7 +5,7 @@ A React finance dashboard inspired by the provided claymorphism reference, upgra
 - Overview, stocks, budgets, insights, and AI screens
 - Claymorphism UI with loading, hover, and chart animations
 - Theme switching and in-app notifications
-- Local API-backed persistence through Express and JSON storage
+- API-backed persistence through Express (local) and Upstash Redis (production)
 - AI Advisor tab with Gemini-backed budget and savings suggestions
 - Market Pulse widget powered by Twelve Data
 - Stock Monitor page powered by Finnhub quotes and company profiles
@@ -21,8 +21,9 @@ A React finance dashboard inspired by the provided claymorphism reference, upgra
 
 ```text
 src/                 Frontend React app
-server/index.js      Local API and production server
-server/data/         Persistent JSON state
+server/index.js      Local API server (JSON persistence)
+server/data/         Persistent JSON state (local dev)
+api/                 Vercel serverless API (KV persistence)
 finance-dashboard.html  Original static reference file
 ```
 
@@ -83,6 +84,31 @@ The Express server will:
 - serve the API at `/api/*`
 - serve the built frontend from `dist/`
 - return `index.html` for non-API app routes
+
+## Vercel Deployment (Full Stack)
+
+This project is wired for Vercel serverless APIs with Upstash Redis persistence.
+
+1. Create a Redis database with the Vercel Upstash Redis integration.
+2. In the Vercel project settings, add these environment variables:
+
+```bash
+UPSTASH_REDIS_REST_URL=
+UPSTASH_REDIS_REST_TOKEN=
+GEMINI_API_KEY=
+TWELVE_DATA_API_KEY=
+FINNHUB_API_KEY=
+```
+
+3. Set the build command to:
+
+```bash
+npm install && npm run build
+```
+
+4. Set the output directory to `dist`.
+
+The Vercel API routes live in `api/` and serve the same `/api/*` endpoints as the local Express server.
 
 ## API
 
